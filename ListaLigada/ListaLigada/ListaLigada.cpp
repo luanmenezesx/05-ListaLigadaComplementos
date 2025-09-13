@@ -7,6 +7,7 @@ struct NO {
 	NO* prox;
 };
 
+NO* ultimo = NULL;
 NO* primeiro = NULL;
 
 // headers
@@ -69,7 +70,7 @@ void menu()
 
 void inicializar()
 {
-	// se a lista j� possuir elementos
+	// se a lista ja possuir elementos
 // libera a memoria ocupada
 	NO* aux = primeiro;
 	while (aux != NULL) {
@@ -79,6 +80,7 @@ void inicializar()
 	}
 
 	primeiro = NULL;
+	ultimo = NULL;
 	cout << "Lista inicializada \n";
 
 }
@@ -124,29 +126,94 @@ void inserirElemento()
 	cin >> novo->valor;
 	novo->prox = NULL;
 
+	if (posicaoElemento(novo->valor) != NULL)
+	{
+		cout << "Este elemento ja foi inserido" << endl;
+
+		return;
+	}
 	if (primeiro == NULL)
 	{
 		primeiro = novo;
+		ultimo = novo;
 	}
 	else
 	{
-		// procura o final da lista
-		NO* aux = primeiro;
-		while (aux->prox != NULL) {
-			aux = aux->prox;
-		}
-		aux->prox = novo;
+		ultimo -> prox = novo;
+		ultimo = novo;
 	}
 }
 
 void excluirElemento()
 {
 
+	int del;
+	NO *atual = primeiro;
+	NO *anterior = NULL;
+
+	
+
+	if (primeiro == NULL)
+	{
+		cout << "No momento, sem elementos na lista" << endl;
+		return;
+	}
+
+	cout << "Digite o elemente a ser deletado" << endl;
+	cin >> del;
+	NO *buscar = posicaoElemento(del);
+
+	if (buscar == NULL)
+	{
+		cout << "Este elemento nao existe" << endl;
+	}
+	else
+	{
+		while (buscar != NULL)
+		{
+			if (del == atual->valor)
+			{
+				if (del == primeiro->valor)
+				{
+					primeiro = atual->prox;
+				}
+				else if (del == ultimo -> valor){
+						anterior-> prox = NULL;
+						ultimo = anterior;
+				}
+				else
+				{
+					anterior->prox = atual->prox;
+				}
+				free(atual);
+				cout << "O elemento " << del << " foi removido" << endl;
+				break;
+			}
+			anterior = atual;
+			atual = atual->prox;
+		}
+	}
 }
 
 void buscarElemento()
 {
 
+}
+
+
+// Sem isso o código não funciona
+NO* posicaoElemento(int numero)
+{
+    NO* aux = primeiro;
+    while (aux != NULL)
+    {
+        if (aux->valor == numero)
+        {
+            return aux; // achou o elemento
+        }
+        aux = aux->prox;
+    }
+    return NULL; // não encontrou
 }
 
 
