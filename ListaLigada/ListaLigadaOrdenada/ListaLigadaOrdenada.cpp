@@ -175,7 +175,7 @@ void excluirElemento()
 	}
 
 	int numero;
-	cout << "Digite o numero a ser excluido";
+	cout << "Digite o numero a ser excluido" << endl;
 	cin >> numero;
 
 	NO* atual = primeiro;
